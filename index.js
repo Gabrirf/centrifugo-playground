@@ -2,9 +2,12 @@ const {Centrifuge} = require('centrifuge');
 const express = require('express');
 const WebSocket = require('ws');
 
-var centrifuge = new Centrifuge('ws://localhost:8000/connection/websocket', {
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE2NzA4NTQ5ODIsImlhdCI6MTY3MDI1MDE4Mn0.OCUSxQ6ebIPqQk-RywynvQWEofYDF0TjBVhyBWNEf3Q',
-    websocket: WebSocket
+const centrifugeUrl = 'ws://localhost:8000/connection/websocket';
+const centrifugeToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE2NzA4NTQ5ODIsImlhdCI6MTY3MDI1MDE4Mn0.OCUSxQ6ebIPqQk-RywynvQWEofYDF0TjBVhyBWNEf3Q';
+
+const centrifuge = new Centrifuge(centrifugeUrl, {
+  token: centrifugeToken,
+  websocket: WebSocket
 })
 
 const sub = centrifuge.newSubscription('channel');
