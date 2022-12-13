@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Centrifugo WebSocket Client</title>
+  <script src="https://unpkg.com/centrifuge@3.0.1/dist/centrifuge.js"></script>
+  <script>    
+    window.onload = init;
+
+    let centrifuge;
+    
+    const newItem = content => {
+      const item = document.createElement('li');
+      item.innerText = content;
+      return item;
+    };
+
+    function subscribe() {
+      const ul = document.getElementById('events');
+      const text = document.getElementById("name-input").value;
+
+      const sub = centrifuge.newSubscription(text);
+
+      sub.on('publication', msg => ul.appendChild(newItem(`publication ${JSON.stringify(msg)}`)));
+      sub.on('subscribing', msg => ul.appendChild(newItem(`subscribing ${JSON.stringify(msg)}`)));
+      sub.on('subscribed', msg => ul.appendChild(newItem(`subscribed ${JSON.stringify(msg)}`)));
+      sub.on('unsubscribed', msg => ul.appendChild(newItem(`unsubscribed ${JSON.stringify(msg)}`)));
+
+      sub.subscribe();
+    }
+    
+    function init() {
+      const ul = document.getElementById('events');
+
+      const centrifugeUrl = 'ws://localhost:8000/connection/websocket'
+      const centrifugeSecret = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE2NzE1Mzc1NjcsImlhdCI6MTY3MDkzMjc2N30.FNcbgsmNeNubPb7Ia7r2ZNRplWBn9V2GsH9MFixXfdo';
+      centrifuge = new Centrifuge(centrifugeUrl, {
+        token: centrifugeSecret
+      })
+      
+      centrifuge.on('connected', () => {
+        ul.appendChild(newItem(`connected`));
+      });
+
+      centrifuge.on('connecting', function(ctx) {
+        ul.appendChild(newItem(`connecting`));
+      });
+      
+      centrifuge.on('disconnected', function(ctx) {
+        ul.appendChild(newItem(`disconnected`));
+      });
+
+      centrifuge.connect();
+    }
+  </script>
+</head>
+<body>
+  <input type="text" placeholder="Enter channel name" id="name-input" />
+  <button onclick="subscribe()">Submit</button>
+  <ul id="events"></ul>
+</body>
+</html>

@@ -11,21 +11,22 @@ const client = new CentClient({
     token: centrifugeToken,
 })
 
-app.post('/publish', (req, res) => {
-  const channel = 'channel'
-  const data = { text: 'Hello, world!' }  
+app.use(express.json());
 
-  client.publish({channel, data})
-  .then(() => {
-    console.log('ok')
-    res.send('Message published')
-  })
-  .catch(err => {
+// curl -X POST http://localhost:3001/publish -H 'Content-Type: application/json' -d '{"channel": "channel", "data": { "hello": "world!" }}'
+app.post('/publish', async (req, res) => {
+  const { channel, data }  = req.body;
+
+  try {    
+    await client.publish({channel, data})
+    return res.send('Message published');
+  } catch (error) {
     console.log(err)
     res.status(500).send(err.message)
-  })
+  }
 })
 
-app.listen(3001, () => {
-  console.log('Server listening on port 3001')
+const port = 3001;
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`)
 })

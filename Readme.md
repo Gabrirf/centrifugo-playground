@@ -4,6 +4,8 @@
 
 ## Servidor Centrifugo
 
+Se incluye documento _docker-compose_ preparado para ser ejecutado `docker-compose up`.
+
 ### Configuración
 
 ```json
@@ -23,12 +25,14 @@
 Es necesario generar un token con el que el cliente se autentifique, para ello se puede ejecutar el siguiente comando: 
 
 ```bash
-./centrifugo gentoken -u [CLIENT_ID]
+centrifugo gentoken -u [CLIENT_ID]
 ```
 
 > Nota: Aunque permite generar el token sin indicar el ID del cliente, este se generará como usuario anónimo y no permitirá la subscripción a los canales.
 
 ## Cliente consumidor
+
+- [Documentación oficial](https://centrifugal.dev/docs/transports/overview)
 
 ### Importar SDK oficial
 
