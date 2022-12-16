@@ -2,6 +2,16 @@
 
 - [Tutorial de despliegue, configuración y conexión](https://centrifugal.dev/docs/getting-started/quickstart)
 
+### Quick install and use
+
+1. Run `npm i`
+2. Run `npm run centrifugo`
+    1. Enter in container: `docker exec -it centrifugo sh`
+    2. Generate token: `centrifugo gentoken -u 123`
+    3. Copy token in _index.js_ file
+3. Run `npm start`
+4. Run `curl -X POST http://localhost:3001/publish/publisher1 -H 'Content-Type: application/json' -d '{"channel": "channel1", "data": { "hello": "world!" }}'`
+
 ## Servidor Centrifugo
 
 Se incluye documento _docker-compose_ preparado para ser ejecutado `docker-compose up`.
