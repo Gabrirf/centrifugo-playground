@@ -2,7 +2,9 @@ const { Centrifuge } = require('centrifuge')
 const WebSocket = require('ws');
 const { CentClient } = require('cent.js');
 
-function createConsumer(name, url, token){
+function createConsumer(options){
+  const { name, url, token, color} = options;
+
   const centrifuge = new Centrifuge(url, { token, websocket: WebSocket });
 
   centrifuge.name = name;
@@ -23,7 +25,7 @@ function createConsumer(name, url, token){
     const sub = centrifuge.newSubscription(channel);
 
     const printEvent = event => msg => {
-      console.log(`${name}(${channel}): ${event} ${JSON.stringify(msg)}`);
+      console.log(`${color(`${name}(${channel})`)}: ${event} ${JSON.stringify(msg)}`);
     };
 
     sub.on('publication', printEvent('publication'));
@@ -38,7 +40,9 @@ function createConsumer(name, url, token){
   return centrifuge;
 }
 
-function createPublisher(name, url, token){  
+function createPublisher(options){  
+  const { name, url, token, color } = options;
+
   const client = new CentClient({ url, token });
 
   client.name = name;
@@ -48,9 +52,9 @@ function createPublisher(name, url, token){
   client.publish = async (channel, data) => {
     try {    
       await publish({channel, data});
-      console.log(`${name}(${channel}): Message published`);
+      console.log(`${color(`${name}(${channel})`)}: Message published`);
     } catch (error) {
-      console.log(`${name}(${channel}): ${JSON.stringify(err)}`);
+      console.log(`${name}(${channel}): ${JSON.stringify(error)}`);
     }
   }
 

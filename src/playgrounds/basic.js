@@ -1,13 +1,12 @@
 // curl -X POST http://localhost:3001/publish/publisher1 -H 'Content-Type: application/json' -d '{"channel": "channel1", "data": { "hello": "world!" }}'
+const express = require('express');
+const { createConsumer, createPublisher } = require('./client');
 
 const PORT = 3001;
 const CONSUMER_URL = 'ws://localhost:8000/connection/websocket';
-const CONSUMER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE2NzE1Mzc1NjcsImlhdCI6MTY3MDkzMjc2N30.FNcbgsmNeNubPb7Ia7r2ZNRplWBn9V2GsH9MFixXfdo';
+const CONSUMER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE2NzIwNDcxNDQsImlhdCI6MTY3MTQ0MjM0NH0.jZk7J4reLu0OaYOzeoc4SNaTVestMinZWrkK_6X3E4A';
 const PUBLISHER_URL = 'http://localhost:8000/api';
 const PUBLISHER_TOKEN = 'd7627bb6-2292-4911-82e1-615c0ed3eebb';
-
-const express = require('express');
-const { createConsumer, createPublisher } = require('./client');
 
 const consumers = [
   { name: 'Consumer1', channels: ['channel1'] },
@@ -29,21 +28,6 @@ function initClients(){
   });
   publisersClients = publishers.map(p => createPublisher(p, PUBLISHER_URL, PUBLISHER_TOKEN));
 }
-
-// function initApi(){
-//   publisersClients.forEach(p => {
-//     app.post(`/${p.name}`, async (req, res) => {
-//       try {
-//         const { channel, data }  = req.body;
-//         p.publish(channel, data);
-//         res.status(200).send(`${p.name}(${channel}): ${JSON.stringify(data)}`)
-//       } catch (error) {
-//         res.status(500).send(error.message);
-//       }
-//     });
-//   })
-//   app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
-// }
 
 function initApi(){
   app.post(`/publish/:publisher`, async (req, res) => {

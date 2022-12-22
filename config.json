@@ -5,5 +5,12 @@
   "admin_secret": "4e9eafcf-0120-4ddd-b668-8dc40072c78e",
   "api_key": "d7627bb6-2292-4911-82e1-615c0ed3eebb",
   "allowed_origins": ["*"],
-  "allow_subscribe_for_client": true
+  "allow_subscribe_for_client": true,
+  "namespaces": [
+    {
+      "name": "notifica",
+      "allow_subscribe_for_client": true,
+      "allow_user_limited_channels": true
+    }
+  ]
 }

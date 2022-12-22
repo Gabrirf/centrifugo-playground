@@ -12,6 +12,8 @@
 3. Run `npm start`
 4. Run `curl -X POST http://localhost:3001/publish/publisher1 -H 'Content-Type: application/json' -d '{"channel": "channel1", "data": { "hello": "world!" }}'`
 
+# Integración básica
+
 ## Servidor Centrifugo
 
 Se incluye documento _docker-compose_ preparado para ser ejecutado `docker-compose up`.
@@ -135,3 +137,44 @@ client.publish({
     data: { message: "Hello World!" }
 })
 ```
+
+# Avanzado
+
+## Espacio de nombres (namespaces)
+
+### Configuración
+
+- Se puede definir distintas configuraciones (como las establecidas en el apartado anterior) para cada espacio de nombres.
+
+```json
+{
+  ...
+  "namespaces": [
+    {
+      "name": "notifica",
+      "allow_subscribe_for_client": true,
+      "allow_user_limited_channels": true
+    }
+  ]
+}
+```
+
+- 
+
+### Nomenclatura
+
+El canal es un string, que el servidor interpreta ciertos caracteres reservados. Pero sigue siendo el canal que se indique.
+
+- `:` Definirá el subespacio de un canal. Puede entenderse como grupos
+- `#` Definirá un canal privado a un usuario o múltiples usuarios separados por comas. El identificador lo recoge Centrifugo del token.
+    - `canal:subcanal#ID(,ID)*`
+    - Aplica a un espacio definido, **no** vale para `canal#1`
+
+### Anotaciones
+
+- Subscribirse a un canal no implica subscripción a los subcanales (`:`), ni al revés.
+- Es necesario subscribirse a un canal completo con todos los modificadores. Es decir:
+    - **Sólo** se recibirá un mensaje privador por `canal:namespace#1` si el cliente se ha subscrito a `canal:namespace#1`.
+        - **NO** recibirá el mensaje si sólo se subscribe a `canal:namespace`
+
+## Autentificación
