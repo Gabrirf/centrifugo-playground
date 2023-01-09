@@ -12,5 +12,6 @@
       "allow_subscribe_for_client": true,
       "allow_user_limited_channels": true
     }
-  ]
+  ],
+  "proxy_connect_endpoint": "http://host.docker.internal:3001/centrifugo/connect"
 }
