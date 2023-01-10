@@ -2,10 +2,23 @@ const { Centrifuge } = require('centrifuge')
 const WebSocket = require('ws');
 const { CentClient } = require('cent.js');
 
-function createConsumer(options){
-  const { name, url, token, color} = options;
+const myWs = function (options) {
+  return class wsClass extends WebSocket {
+      constructor(...args) {
+          super(...[...args, ...[options]])
+      }
+  }
+}
 
-  const centrifuge = new Centrifuge(url, { token, websocket: WebSocket });
+function createConsumer(options){
+  const { name, url, auth, token, color} = options;
+
+  const centrifuge = new Centrifuge(url, 
+    {
+      token,
+      websocket: myWs({ headers: { Authorization: auth } })
+    }
+  );
 
   centrifuge.name = name;
 

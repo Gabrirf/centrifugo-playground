@@ -11,7 +11,8 @@ const PUBLISHER_URL = 'http://localhost:8000/api';
 const PUBLISHER_TOKEN = centrifugoConfig.api_key;
 
 const consumers = [
-  { name: 'Consumer1', color: chalk.blue, channels: ['chat'] },
+  { name: 'Allowed', auth: 'ok', color: chalk.blue, channels: ['chat'] },
+  { name: 'NotAllowed', auth: 'patata', color: chalk.red, channels: ['chat'] },
 ];
 const publishers = [
   { name: 'chat', url: PUBLISHER_URL, token: PUBLISHER_TOKEN, color: chalk.bgBlue }
@@ -34,9 +35,10 @@ function initApi(){
 
   app.post(`/centrifugo/connect`, async (req, res) => {
     try {
+      if(req.headers.authorization !== 'ok') throw Error();
       res.status(200).send({result: {user: req.body.client }})
     } catch (error) {
-      res.status(404).send(error.message);
+      res.status(200).send({result: {}});
     }
   });
 
@@ -58,7 +60,7 @@ app.use(express.json());
 
 function init(){
   initApi();
-  //initClients();
+  initClients();
 }
 
 init();
