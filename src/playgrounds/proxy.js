@@ -11,9 +11,9 @@ const PUBLISHER_URL = 'http://localhost:8000/api';
 const PUBLISHER_TOKEN = centrifugoConfig.api_key;
 
 const consumers = [
-  { name: 'Allowed0', auth: '1', color: chalk.blue, channels: ['notifica', 'chat', 'chat:personal']},
-  { name: 'Allowed1', auth: '2', color: chalk.green, channels: ['chat']},
-  { name: 'Allowed2', auth: '3', color: chalk.yellow, channels: []},
+  { name: 'Allowed0', auth: '1', color: chalk.blue, channels: ['chat:group1']},
+  { name: 'Allowed1', auth: '2', color: chalk.green, channels: []},
+  { name: 'Allowed2', auth: '3', color: chalk.yellow, channels: ['chat:group1']},
   { name: 'NotAllowed', auth: 'patata', color: chalk.red, channels: []},
 ];
 const publishers = [
@@ -40,7 +40,7 @@ function initApi(){
       res.status(200).send({
         result: {
           user: req.headers.authorization,
-          //channels: req.data.channels
+          channels: [...req.body.data.channels, 'chat']
         }
       })
     } catch (error) {

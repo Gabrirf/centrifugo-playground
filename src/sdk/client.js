@@ -11,13 +11,14 @@ const myWs = function (options) {
 }
 
 function createConsumer(options){
-  const { name, url, auth, token, color} = options;
+  const { name, url, auth, token, color, channels} = options;
 
   const centrifuge = new Centrifuge(url, 
     {
       token,
-      websocket: myWs({ headers: { Authorization: auth } })
-    }
+      websocket: myWs({ headers: { Authorization: auth } }),
+      data: {channels}
+    },
   );
 
   centrifuge.name = name;

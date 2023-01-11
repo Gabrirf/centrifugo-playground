@@ -8,12 +8,13 @@
   "allow_subscribe_for_client": true,
   "namespaces": [
     {
-      "name": "notifica",
+      "name": "chat",
       "allow_subscribe_for_client": true,
       "allow_user_limited_channels": true
     }
   ],
   "proxy_connect_endpoint": "http://host.docker.internal:3001/centrifugo/connect",
   "proxy_http_headers": ["Authorization"],
+  "user_personal_channel_namespace": "chat",
   "user_subscribe_to_personal": true
 }
