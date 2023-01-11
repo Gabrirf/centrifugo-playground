@@ -34,6 +34,12 @@ function createConsumer(options){
     console.log(`${color(name)} disconnected`);
   });
 
+  centrifuge.on('publication', (ctx) => {
+    const channel = ctx.channel;
+    const payload = JSON.stringify(ctx.data);
+    console.log('Publication from server-side channel', color(channel), payload);
+  });
+
   centrifuge.subscribe = channel => {
     const sub = centrifuge.newSubscription(channel);
 

@@ -14,5 +14,6 @@
     }
   ],
   "proxy_connect_endpoint": "http://host.docker.internal:3001/centrifugo/connect",
-  "proxy_http_headers": ["Authorization"]
+  "proxy_http_headers": ["Authorization"],
+  "user_subscribe_to_personal": true
 }
