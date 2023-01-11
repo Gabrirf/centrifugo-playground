@@ -23,15 +23,15 @@ function createConsumer(options){
   centrifuge.name = name;
 
   centrifuge.on('connected', () => {
-    console.log(`${name} connected`);
+    console.log(`${color(name)} connected`);
   });
 
   centrifuge.on('connecting', () => {
-    console.log(`${name} connecting`);
+    console.log(`${color(name)} connecting`);
   });
 
   centrifuge.on('disconnected', () => {
-    console.log(`${name} disconnected`);
+    console.log(`${color(name)} disconnected`);
   });
 
   centrifuge.subscribe = channel => {

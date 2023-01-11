@@ -36,19 +36,9 @@ function initApi(){
   app.post(`/centrifugo/connect`, async (req, res) => {
     try {
       if(req.headers.authorization !== 'ok') throw Error();
-      res.status(200).send({result: {user: req.body.client }})
+      res.status(200).send({result: {user: '1' }})
     } catch (error) {
       res.status(200).send({result: {}});
-    }
-  });
-
-  // curl http://localhost:3001/init
-  app.get(`/init`, async (req, res) => {
-    try {
-      initClients();
-      res.status(200).send(`done`);
-    } catch (error) {
-      res.status(404).send(error.message);
     }
   });
 
