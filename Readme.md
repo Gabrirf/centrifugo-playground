@@ -178,3 +178,35 @@ El canal es un string, que el servidor interpreta ciertos caracteres reservados.
         - **NO** recibirá el mensaje si sólo se subscribe a `canal:namespace`
 
 ## Autentificación
+
+Para la autentificación es necesario formar un token JWT con el identificador del usuario, indicado por la clave `sub`. ([Ejemplo](./src/playgrounds/notifica.js#L36))
+
+> Como firma del JST usaremos el `token_hmac_secret_key`
+
+### [Centrifugo como proxy](https://centrifugal.dev/docs/3/server/proxy)
+
+Para configurar que Centrifugo delegue el control de acceso, no será necesario indicar ningún token. En caso de enviarlo, no actuará como Proxy.
+
+Es necesario configurar Centrifugo indicándole el endpoint del backend que realizará el control de acceso.
+
+- _config.json_
+
+```json
+{
+  ...
+  "proxy_connect_endpoint": "http://host.docker.internal:3001/centrifugo/connect",
+  "proxy_http_headers": ["Authorization"],
+}
+```
+
+- **proxy_connect_endpoint** Endpoint del backend que realiza el control de acceso
+- **proxy_http_headers** Cabeceras de la petición original que serán incluídas en la peticiṕn al endpoint
+
+Para aceptar la conexión, el backend deberá enviar un body indicando el identificador del usuario, así como [otros parámetros opcionales](https://centrifugal.dev/docs/3/server/proxy#connect-result-fields):
+
+- **channels** Para autosubscribir al cliente a los canales indicados
+- **subs** Lista de canales a los que el cliente se puede subscribir
+
+[Ver ejemplo](./src/playgrounds/proxy.js#L37)
+
+> Además de la conexión, también se pueden establecer como Proxy para otras acciones, como subscribirse o publicar. [Ver documentación](https://centrifugal.dev/docs/3/server/proxy#subscribe-proxy)
