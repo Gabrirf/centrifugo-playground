@@ -1,6 +1,6 @@
 // curl -X POST http://localhost:3001/publish/publisher1 -H 'Content-Type: application/json' -d '{"channel": "channel1", "data": { "hello": "world!" }}'
 const express = require('express');
-const { createConsumer, createPublisher } = require('./client');
+const { createConsumer, createPublisher } = require('../sdk/client');
 
 const PORT = 3001;
 const CONSUMER_URL = 'ws://localhost:8000/connection/websocket';

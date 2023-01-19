@@ -4,6 +4,9 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
+    "demo:notifica": "node src/playgrounds/notifica.js",
+    "demo:chat:server": "node src/playgrounds/chat/server.js",
+    "demo:chat:client": "node src/playgrounds/chat/client.js",
     "demo:proxy": "node src/playgrounds/proxy.js",
     "centrifugo": "docker-compose up -d"
   },

@@ -9,7 +9,13 @@
   "namespaces": [
     {
       "name": "chat",
+      "publish": true,
       "allow_subscribe_for_client": true,
+      "allow_publish_for_subscriber": true,
+      "allow_user_limited_channels": true
+    },
+    {
+      "name": "notifica",
       "allow_user_limited_channels": true
     }
   ],

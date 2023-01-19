@@ -11,35 +11,28 @@ const myWs = function (options) {
 }
 
 function createConsumer(options){
-  const { name, url, auth, token, color, channels} = options;
+  const { name, url, auth, token, color, channels, controller } = options;
 
   const centrifuge = new Centrifuge(url, 
     {
       token,
-      websocket: myWs({ headers: { Authorization: auth } }),
+      websocket: auth ? myWs({ headers: { Authorization: auth } }) : WebSocket,
       data: {channels}
     },
   );
 
   centrifuge.name = name;
 
-  centrifuge.on('connected', () => {
-    console.log(`${color(name)} connected`);
-  });
+  centrifuge.on('connected', () => console.log(`${color(name)} connected`));
+  centrifuge.on('connecting', () => console.log(`${color(name)} connecting`));
+  centrifuge.on('disconnected', () => console.log(`${color(name)} disconnected`));
 
-  centrifuge.on('connecting', () => {
-    console.log(`${color(name)} connecting`);
-  });
-
-  centrifuge.on('disconnected', () => {
-    console.log(`${color(name)} disconnected`);
-  });
-
-  centrifuge.on('publication', (ctx) => {
+  const defaultController = (ctx) => {
     const channel = ctx.channel;
     const payload = JSON.stringify(ctx.data);
     console.log('Publication from server-side channel', color(channel), payload);
-  });
+  };
+  centrifuge.on('publication', controller || defaultController);
 
   centrifuge.subscribe = channel => {
     const sub = centrifuge.newSubscription(channel);
@@ -48,7 +41,7 @@ function createConsumer(options){
       console.log(`${color(`${name}(${channel})`)}: ${event} ${JSON.stringify(msg)}`);
     };
 
-    sub.on('publication', printEvent('publication'));
+    sub.on('publication', controller || printEvent('publication'));
     sub.on('subscribing', printEvent('subscribing'));
     sub.on('subscribed', printEvent('subscribed'));
     sub.on('unsubscribed', printEvent('unsubscribed'));
