@@ -45,6 +45,7 @@ centrifugo gentoken -u [CLIENT_ID]
 ## Cliente consumidor
 
 - [Documentación oficial](https://centrifugal.dev/docs/transports/overview)
+- [Cliente oficial](https://github.com/centrifugal/centrifuge-js)
 
 ### Importar SDK oficial
 
@@ -101,9 +102,10 @@ sub.subscribe();
 
 ## Cliente publicador
 
-- [Documentación oficial](https://centrifugal.dev/docs/server/server_api)
-
 Como cuenta la documentación, la publicación de mensajes se realiza a través de una API, que se consume a través de peticiones HTTP. La librería `cent.js` facilita su explotación.
+
+- [Documentación oficial](https://centrifugal.dev/docs/server/server_api)
+- [Cliente NO oficial](https://github.com/SocketSomeone/cent.js)
 
 ### Importar SDK
 
@@ -161,7 +163,7 @@ client.publish({
 
 - 
 
-### Nomenclatura
+### [Nomenclatura](https://centrifugal.dev/docs/3/server/channels)
 
 El canal es un string, que el servidor interpreta ciertos caracteres reservados. Pero sigue siendo el canal que se indique.
 
@@ -177,7 +179,7 @@ El canal es un string, que el servidor interpreta ciertos caracteres reservados.
     - **Sólo** se recibirá un mensaje privador por `canal:namespace#1` si el cliente se ha subscrito a `canal:namespace#1`.
         - **NO** recibirá el mensaje si sólo se subscribe a `canal:namespace`
 
-## Autentificación
+## [Autentificación](https://centrifugal.dev/docs/server/authentication)
 
 Para la autentificación es necesario formar un token JWT con el identificador del usuario, indicado por la clave `sub`. ([Ejemplo](./src/playgrounds/notifica.js#L36))
 
