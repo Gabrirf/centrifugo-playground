@@ -20,15 +20,43 @@ Se incluye documento _docker-compose_ preparado para ser ejecutado `docker-compo
 
 ### Configuración
 
-```json
+```javascript
 {
   "token_hmac_secret_key": "bbe7d157-a253-4094-9759-06a8236543f9",
-  "admin": true, // Habilitar la interfaz web de administración
+  "admin": true,
   "admin_password": "d0683813-0916-4c49-979f-0e08a686b727",
   "admin_secret": "4e9eafcf-0120-4ddd-b668-8dc40072c78e",
   "api_key": "d7627bb6-2292-4911-82e1-615c0ed3eebb",
+  "allowed_origins": ["*"], 
+  "allow_subscribe_for_client": true 
+}
+
+{
+  "token_hmac_secret_key": "bbe7d157-a253-4094-9759-06a8236543f9", // Key para firmar los JWT de los clientes
+  "admin": true, // Habilitar la interfaz web de administración
+  "admin_password": "d0683813-0916-4c49-979f-0e08a686b727",
+  "admin_secret": "4e9eafcf-0120-4ddd-b668-8dc40072c78e",
+  "api_key": "d7627bb6-2292-4911-82e1-615c0ed3eebb", // Token para los publicadores
   "allowed_origins": ["*"], // Necesario para permitir la conexión ('*' solo para testing local)
-  "allow_subscribe_for_client": true // Necesario para la subscripción de los clientes
+  "allow_subscribe_for_client": true, // Necesario para la subscripción de los clientes
+  "namespaces": [ // Los espacios de nombres permiten incluir diferentes configuraciones para distintos prefijos de canales
+    {
+      "name": "chat",
+      "publish": true, // Permite publicar a los clientes conectados
+      "allow_subscribe_for_client": true, // Permite que los clientes conectados puedan subscribirse a nuevos canales
+      "allow_publish_for_subscriber": true, // Permite publicar a los clientes subscritos
+      // "allow_publish_for_client": true, // Permite publicar a los clientes conectados
+      "allow_user_limited_channels": true
+    },
+    {
+      "name": "notifica",
+      "allow_user_limited_channels": true
+    }
+  ],
+  "proxy_connect_endpoint": "http://host.docker.internal:3001/centrifugo/connect", // Para que Centrifugo actúe como proxy para authorización de conexión
+  "proxy_http_headers": ["Authorization"], // Cabeceras que serán reenviadas al backend
+  "user_personal_channel_namespace": "chat", // Prefijo (espacio de nombre) para el canal personal
+  "user_subscribe_to_personal": true // Autosubscribir a canal personal (canal privado cliente)
 }
 ```
 
