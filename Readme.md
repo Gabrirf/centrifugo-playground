@@ -22,16 +22,6 @@ Se incluye documento _docker-compose_ preparado para ser ejecutado `docker-compo
 
 ```javascript
 {
-  "token_hmac_secret_key": "bbe7d157-a253-4094-9759-06a8236543f9",
-  "admin": true,
-  "admin_password": "d0683813-0916-4c49-979f-0e08a686b727",
-  "admin_secret": "4e9eafcf-0120-4ddd-b668-8dc40072c78e",
-  "api_key": "d7627bb6-2292-4911-82e1-615c0ed3eebb",
-  "allowed_origins": ["*"], 
-  "allow_subscribe_for_client": true 
-}
-
-{
   "token_hmac_secret_key": "bbe7d157-a253-4094-9759-06a8236543f9", // Key para firmar los JWT de los clientes
   "admin": true, // Habilitar la interfaz web de administración
   "admin_password": "d0683813-0916-4c49-979f-0e08a686b727",
@@ -188,8 +178,6 @@ client.publish({
   ]
 }
 ```
-
-- 
 
 ### [Nomenclatura](https://centrifugal.dev/docs/3/server/channels)
 
